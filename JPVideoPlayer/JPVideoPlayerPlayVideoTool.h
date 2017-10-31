@@ -76,6 +76,9 @@ typedef void(^JPVideoPlayerPlayVideoToolPlayingProgressBlock)(CGFloat progress);
  */
 @property(nonatomic, strong, readonly, nullable)JPVideoPlayerPlayVideoToolItem *currentPlayVideoItem;
 
+// 为每一个playingKey保存上次播放的时间
+@property (nonatomic, strong) NSMutableDictionary *resumeTimeForPlayingKeyDict;
+
 
 # pragma mark - Play video existed in disk.
 

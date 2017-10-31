@@ -14,6 +14,7 @@
 
 @interface JPVideoPlayerDemoCell()<JPVideoPlayerDelegate>
 
+
 @end
 
 @implementation JPVideoPlayerDemoCell
@@ -33,6 +34,8 @@
     else{
         self.videoImv.image = [UIImage imageNamed:@"placeholder2"];
     }
+    [self addSubview:self.playBtnView];
+    [self.playBtnView setCenter:self.videoImv.center];
 }
 
 
@@ -40,7 +43,7 @@
 
 - (BOOL)videoPlayerManager:(JPVideoPlayerManager *)videoPlayerManager shouldAutoReplayForURL:(NSURL *)videoURL{
     // do something here.
-    return YES;
+    return NO;
 }
 
 - (BOOL)videoPlayerManager:(JPVideoPlayerManager *)videoPlayerManager shouldDownloadVideoForURL:(NSURL *)videoURL{
@@ -48,9 +51,15 @@
     return YES;
 }
 
-//- (BOOL)shouldProgressViewOnTop{
-//    return YES;
-//}
+- (BOOL)shouldProgressViewOnTop{
+    return YES;
+}
 
-
+- (UIImageView *)playBtnView {
+    if (!_playBtnView) {
+        _playBtnView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
+        [_playBtnView setBackgroundColor:[UIColor redColor]];
+    }
+    return _playBtnView;
+}
 @end

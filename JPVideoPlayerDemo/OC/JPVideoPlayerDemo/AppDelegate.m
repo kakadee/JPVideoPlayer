@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // 启动图片延时: 2 秒
-    [NSThread sleepForTimeInterval:2];
+//    [NSThread sleepForTimeInterval:2];
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -39,7 +39,7 @@
     nav_setting.title = @"Setting";
     
     UITabBarController *tabVC = [[UITabBarController alloc]init];
-    tabVC.viewControllers = @[nav_home, nav_setting];
+    tabVC.viewControllers = @[nav_home,nav_setting];
     tabVC.tabBar.tintColor = [UIColor colorWithRed:64.0/255.0 green:146.0/255.0 blue:75.0/255.0 alpha:1];
     
     self.window.rootViewController = tabVC;

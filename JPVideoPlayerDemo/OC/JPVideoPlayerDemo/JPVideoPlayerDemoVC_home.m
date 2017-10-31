@@ -49,6 +49,7 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
     [self setup];
     
     [self insertLineInScreenCenter];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -130,7 +131,7 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return JPVideoPlayerDemoRowHei;
+    return JPVideoPlayerDemoRowHei + 15 + 23 + 29;
 }
 
 /**

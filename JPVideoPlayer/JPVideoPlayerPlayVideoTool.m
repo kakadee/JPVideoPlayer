@@ -223,6 +223,7 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
         item.currentPlayerLayer.frame = item.unownShowView.jp_backgroundLayer.bounds;
         item.error = error;
         item.playingKey = [[JPVideoPlayerManager sharedManager]cacheKeyForURL:url];
+        
     }
     {
         // add observer for video playing progress.
@@ -347,6 +348,13 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
 }
 
 - (void)stopPlay{
+    if (self.currentPlayVideoItem) {
+        NSLog(@"stopPlay--%@--%ld",self.currentPlayVideoItem.playingKey,self.currentPlayVideoItem.currentPlayerItem.currentTime.value);
+        CMTime cmtime = self.currentPlayVideoItem.currentPlayerItem.currentTime;
+        NSValue *value = [NSValue valueWithBytes:&cmtime objCType:@encode(CMTime)];
+        [self.resumeTimeForPlayingKeyDict setValue:value forKey:self.currentPlayVideoItem.playingKey];
+    }
+    
     self.currentPlayVideoItem = nil;
     for (JPVideoPlayerPlayVideoToolItem *item in self.playVideoItems) {
         [item stopPlayVideo];
@@ -432,7 +440,6 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
             return;
         }
     }
-    
     // Seek the start point of file data and repeat play, this handle have no memory surge.
     __weak typeof(self.currentPlayVideoItem) weak_Item = self.currentPlayVideoItem;
     [self.currentPlayVideoItem.player seekToTime:CMTimeMake(0, 1) completionHandler:^(BOOL finished) {
@@ -464,7 +471,25 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
                 
                 // When get ready to play note, we can go to play, and can add the video picture on show view.
                 if (!self.currentPlayVideoItem) return;
-                
+                CGFloat total = (CGFloat)playerItem.duration.value / playerItem.duration.timescale;
+                // 已经拖动到了现在的秒数了。
+        
+                NSInteger dragedSeconds = floorf(total * 0.5);
+                //转换成CMTime才能给player来控制播放进度---这个类用来控制时间的。
+                CMTime dragedCMTime = CMTimeMake(dragedSeconds, 1);
+                if ([self.resumeTimeForPlayingKeyDict valueForKey:self.currentPlayVideoItem.playingKey]) {
+                    NSValue *value = [self.resumeTimeForPlayingKeyDict valueForKey:self.currentPlayVideoItem.playingKey];
+                    CMTime resumeTime;
+                    [value getValue:&resumeTime];
+                    NSLog(@"cotinuestopplay:%@--%ld",self.currentPlayVideoItem.playingKey,resumeTime.value);
+                    [self.currentPlayVideoItem.player pause];
+                    __weak typeof(self) weakSelf = self;
+                    [self.currentPlayVideoItem.player seekToTime:resumeTime completionHandler:^(BOOL finished) {
+                        __strong __typeof (weakSelf) sself = weakSelf ;
+                        [sself.currentPlayVideoItem.player play];
+                        
+                    }]; 
+                }
                 [self.currentPlayVideoItem.player play];
                 [self hideActivaityIndicatorView];
                 
@@ -499,7 +524,6 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
         if (currentTime != 0 && currentTime > self.currentPlayVideoItem.lastTime) {
             [self hideActivaityIndicatorView];
             self.currentPlayVideoItem.lastTime = currentTime;
-            
             if (self.delegate && [self.delegate respondsToSelector:@selector(playVideoTool:playingStatuDidChanged:)]) {
                 [self.delegate playVideoTool:self playingStatuDidChanged:JPVideoPlayerPlayingStatusPlaying];
             }
@@ -562,4 +586,10 @@ static NSString *JPVideoPlayerURL = @"www.newpan.com";
     }
 }
 
+- (NSMutableDictionary *)resumeTimeForPlayingKeyDict {
+    if (!_resumeTimeForPlayingKeyDict) {
+        _resumeTimeForPlayingKeyDict = [NSMutableDictionary new];
+    }
+    return _resumeTimeForPlayingKeyDict;
+}
 @end

@@ -25,6 +25,12 @@ typedef NS_OPTIONS(NSInteger, JPPlayUnreachCellStyle) {
 @interface JPVideoPlayerDemoCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *videoImv;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *locationIcon;
+@property (weak, nonatomic) IBOutlet UILabel *location;
+
+@property (nonatomic,strong) UIImageView *playBtnView;
+@property (nonatomic,strong) UIImageView *playImage;
 
 /** videoPath */
 @property(nonatomic, strong)NSString *videoPath;

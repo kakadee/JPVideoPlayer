@@ -35,14 +35,11 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
     // 如果找到了, 就开始播放视频
     if (videoCell) {
         self.playingCell = videoCell;
-        
+        [self.playingCell.playBtnView setHidden:YES];
         // display status view.
         [videoCell.videoImv jp_playVideoWithURL:[NSURL URLWithString:videoCell.videoPath]];
     }
 }
-
-
-#pragma mark - Video Play Events
 
 - (void)handleScrollStop{
     JPVideoPlayerDemoCell *bestCell = [self findTheBestToPlayVideoCell];
@@ -52,7 +49,7 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
     if (self.playingCell.hash != bestCell.hash && bestCell.hash != 0) {
         
         [self.playingCell.videoImv jp_stopPlay];
-        
+        [self.playingCell.playBtnView setHidden:NO];
         NSURL *url = [NSURL URLWithString:bestCell.videoPath];
         
         // display status view.
@@ -62,6 +59,7 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
          [bestCell.videoImv jp_playVideoWithURL:url];
         
         self.playingCell = bestCell;
+        [bestCell.playBtnView setHidden:YES];
     }
 }
 
@@ -77,6 +75,7 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
 }
 
 - (void)stopPlay{
+    [self.playingCell.playBtnView setHidden:NO];
     [self.playingCell.videoImv jp_stopPlay];
     self.playingCell = nil;
 }

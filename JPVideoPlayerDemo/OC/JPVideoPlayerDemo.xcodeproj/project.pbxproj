@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30B550B21FA999820083DFA3 /* TransVideoPlayerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B550B11FA999820083DFA3 /* TransVideoPlayerCell.m */; };
+		30B550B51FA9B71E0083DFA3 /* TransVideoPlayerCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B550B41FA9B71E0083DFA3 /* TransVideoPlayerCellModel.m */; };
 		481650661ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.m in Sources */ = {isa = PBXBuildFile; fileRef = 481650641ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.m */; };
 		481650671ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.xib in Resources */ = {isa = PBXBuildFile; fileRef = 481650651ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.xib */; };
 		488717511EB63CBA00300CA6 /* JPVideoPlayerDemoVC_Setting.m in Sources */ = {isa = PBXBuildFile; fileRef = 4887174F1EB63CBA00300CA6 /* JPVideoPlayerDemoVC_Setting.m */; };
@@ -88,6 +90,10 @@
 /* Begin PBXFileReference section */
 		0C9A80C1EADCB50E8B8E7648 /* Pods-JPVideoPlayerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JPVideoPlayerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JPVideoPlayerDemo/Pods-JPVideoPlayerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		1F5F3C3412F93A0936D3FBB0 /* Pods-JPVideoPlayerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JPVideoPlayerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-JPVideoPlayerDemo/Pods-JPVideoPlayerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		30B550B01FA999820083DFA3 /* TransVideoPlayerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransVideoPlayerCell.h; sourceTree = "<group>"; };
+		30B550B11FA999820083DFA3 /* TransVideoPlayerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransVideoPlayerCell.m; sourceTree = "<group>"; };
+		30B550B31FA9B71E0083DFA3 /* TransVideoPlayerCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransVideoPlayerCellModel.h; sourceTree = "<group>"; };
+		30B550B41FA9B71E0083DFA3 /* TransVideoPlayerCellModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransVideoPlayerCellModel.m; sourceTree = "<group>"; };
 		481650631ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPVideoPlayerDemoVC_push.h; sourceTree = "<group>"; };
 		481650641ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPVideoPlayerDemoVC_push.m; sourceTree = "<group>"; };
 		481650651ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JPVideoPlayerDemoVC_push.xib; sourceTree = "<group>"; };
@@ -185,6 +191,7 @@
 				48CB2C2A1EDE4C63009DD486 /* JPVideoPlayerActivityIndicator.m */,
 				48CB2C2B1EDE4C63009DD486 /* JPVideoPlayerCache.h */,
 				48CB2C2C1EDE4C63009DD486 /* JPVideoPlayerCache.m */,
+				48CB2C371EDE4C63009DD486 /* JPVideoPlayerManager.m */,
 				48CB2C2D1EDE4C63009DD486 /* JPVideoPlayerCacheConfig.h */,
 				48CB2C2E1EDE4C63009DD486 /* JPVideoPlayerCacheConfig.m */,
 				48CB2C2F1EDE4C63009DD486 /* JPVideoPlayerCachePathTool.h */,
@@ -195,7 +202,6 @@
 				48CB2C341EDE4C63009DD486 /* JPVideoPlayerDownloaderOperation.h */,
 				48CB2C351EDE4C63009DD486 /* JPVideoPlayerDownloaderOperation.m */,
 				48CB2C361EDE4C63009DD486 /* JPVideoPlayerManager.h */,
-				48CB2C371EDE4C63009DD486 /* JPVideoPlayerManager.m */,
 				48CB2C381EDE4C63009DD486 /* JPVideoPlayerOperation.h */,
 				48CB2C391EDE4C63009DD486 /* JPVideoPlayerPlayVideoTool.h */,
 				48CB2C3A1EDE4C63009DD486 /* JPVideoPlayerPlayVideoTool.m */,
@@ -254,6 +260,10 @@
 				48EE51CD1E6C069900BA602D /* JPVideoPlayerDemoCell.h */,
 				48EE51CE1E6C069900BA602D /* JPVideoPlayerDemoCell.m */,
 				48EE51CF1E6C069900BA602D /* JPVideoPlayerDemoCell.xib */,
+				30B550B01FA999820083DFA3 /* TransVideoPlayerCell.h */,
+				30B550B11FA999820083DFA3 /* TransVideoPlayerCell.m */,
+				30B550B31FA9B71E0083DFA3 /* TransVideoPlayerCellModel.h */,
+				30B550B41FA9B71E0083DFA3 /* TransVideoPlayerCellModel.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -503,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -544,12 +554,14 @@
 				5FF7BAF21E7F8EC400912ACD /* UITableView+VideoPlay.m in Sources */,
 				5F67056B1DADE88F001EBFAF /* AppDelegate.m in Sources */,
 				48CD2D761F47358F0038D912 /* NSURL+QueryStrip.m in Sources */,
+				30B550B51FA9B71E0083DFA3 /* TransVideoPlayerCellModel.m in Sources */,
 				48CB2C5A1EDE4C63009DD486 /* UIView+PlayerStatusAndDownloadIndicator.m in Sources */,
 				48CB2C521EDE4C63009DD486 /* JPVideoPlayerDownloaderOperation.m in Sources */,
 				48FD32711EB701D400ACCB05 /* JPQRCodeTool.m in Sources */,
 				48CB2C531EDE4C63009DD486 /* JPVideoPlayerManager.m in Sources */,
 				5F6705681DADE88F001EBFAF /* main.m in Sources */,
 				48CB2C4F1EDE4C63009DD486 /* JPVideoPlayerCacheConfig.m in Sources */,
+				30B550B21FA999820083DFA3 /* TransVideoPlayerCell.m in Sources */,
 				488717511EB63CBA00300CA6 /* JPVideoPlayerDemoVC_Setting.m in Sources */,
 				481650661ED1AA7B00A18412 /* JPVideoPlayerDemoVC_push.m in Sources */,
 				48CB2C4D1EDE4C63009DD486 /* JPVideoPlayerActivityIndicator.m in Sources */,

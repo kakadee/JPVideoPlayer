@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class JPVideoPlayerDemoCell;
+@class TransVideoPlayerCell;
 
 UIKIT_EXTERN CGFloat const JPVideoPlayerDemoNavAndStatusTotalHei; // 导航栏和状态栏高度总和.
 UIKIT_EXTERN CGFloat const JPVideoPlayerDemoTabbarHei; // tabbar 高度.
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, JPVideoPlayerDemoScrollDerection) {
  * The cell of playing video.
  * 正在播放视频的cell.
  */
-@property(nonatomic, nullable)JPVideoPlayerDemoCell *playingCell;
+@property(nonatomic, nullable)TransVideoPlayerCell *playingCell;
 
 /**
  * The number of cells cannot stop in screen center.

@@ -21,7 +21,6 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
-    
     self.videoImv.jp_videoPlayerDelegate = self;
 }
 

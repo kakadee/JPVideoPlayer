@@ -16,11 +16,11 @@
  * The style of cell cannot stop in screen center.
  * 播放滑动不可及cell的类型
  */
-typedef NS_OPTIONS(NSInteger, JPPlayUnreachCellStyle) {
-    JPPlayUnreachCellStyleNone = 1 << 0,  // normal 播放滑动可及cell
-    JPPlayUnreachCellStyleUp = 1 << 1,    // top 顶部不可及
-    JPPlayUnreachCellStyleDown = 1<< 2    // bottom 底部不可及
-};
+//typedef NS_OPTIONS(NSInteger, JPPlayUnreachCellStyle) {
+//    JPPlayUnreachCellStyleNone = 1 << 0,  // normal 播放滑动可及cell
+//    JPPlayUnreachCellStyleUp = 1 << 1,    // top 顶部不可及
+//    JPPlayUnreachCellStyleDown = 1<< 2    // bottom 底部不可及
+//};
 
 @interface JPVideoPlayerDemoCell : UITableViewCell
 
@@ -30,7 +30,6 @@ typedef NS_OPTIONS(NSInteger, JPPlayUnreachCellStyle) {
 @property (weak, nonatomic) IBOutlet UILabel *location;
 
 @property (nonatomic,strong) UIImageView *playBtnView;
-@property (nonatomic,strong) UIImageView *playImage;
 
 /** videoPath */
 @property(nonatomic, strong)NSString *videoPath;
@@ -39,6 +38,6 @@ typedef NS_OPTIONS(NSInteger, JPPlayUnreachCellStyle) {
 @property(nonatomic, strong)NSIndexPath *indexPath;
 
 /** cell类型 */
-@property(nonatomic, assign)JPPlayUnreachCellStyle cellStyle;
+//@property(nonatomic, assign)JPPlayUnreachCellStyle cellStyle;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "UITableView+VideoPlay.h"
-#import "JPVideoPlayerDemoCell.h"
+#import "TransVideoPlayerCell.h"
 #import <objc/runtime.h>
 #import "UIView+WebVideoCache.h"
 
@@ -22,9 +22,9 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
     
     // Find first cell need play video in visiable cells.
     // 在可见cell中找到第一个有视频的cell
-    JPVideoPlayerDemoCell *videoCell = nil;
+    TransVideoPlayerCell *videoCell = nil;
     
-    for (JPVideoPlayerDemoCell *cell in visiableCells) {
+    for (TransVideoPlayerCell *cell in visiableCells) {
         if (cell.videoPath.length > 0) {
             videoCell = cell;
             break;
@@ -42,7 +42,7 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
 }
 
 - (void)handleScrollStop{
-    JPVideoPlayerDemoCell *bestCell = [self findTheBestToPlayVideoCell];
+    TransVideoPlayerCell *bestCell = [self findTheBestToPlayVideoCell];
     
     // If the found cell is the cell playing video, this situation cannot play video again.
     // 注意, 如果正在播放的 cell 和 finnalCell 是同一个 cell, 不应该在播放.
@@ -83,12 +83,12 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
 
 #pragma mark - Private
 
-- (JPVideoPlayerDemoCell *)findTheBestToPlayVideoCell{
+- (TransVideoPlayerCell *)findTheBestToPlayVideoCell{
     
     // To find next cell need play video.
     // 找到下一个要播放的cell(最在屏幕中心的).
     
-    JPVideoPlayerDemoCell *finnalCell = nil;
+    TransVideoPlayerCell *finnalCell = nil;
     NSArray *visiableCells = [self visibleCells];
     CGFloat gap = MAXFLOAT;
     
@@ -96,7 +96,7 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
     windowRect.origin.y = JPVideoPlayerDemoNavAndStatusTotalHei;
     windowRect.size.height -= (JPVideoPlayerDemoNavAndStatusTotalHei + JPVideoPlayerDemoTabbarHei);
     
-    for (JPVideoPlayerDemoCell *cell in visiableCells) {
+    for (TransVideoPlayerCell *cell in visiableCells) {
         
         @autoreleasepool {
             
@@ -206,11 +206,11 @@ CGFloat const JPVideoPlayerDemoTabbarHei = 49;
     return num;
 }
 
-- (void)setPlayingCell:(JPVideoPlayerDemoCell *)playingCell{
+- (void)setPlayingCell:(TransVideoPlayerCell *)playingCell{
     objc_setAssociatedObject(self, @selector(playingCell), playingCell, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (JPVideoPlayerDemoCell *)playingCell{
+- (TransVideoPlayerCell *)playingCell{
     return objc_getAssociatedObject(self, _cmd);
 }
 

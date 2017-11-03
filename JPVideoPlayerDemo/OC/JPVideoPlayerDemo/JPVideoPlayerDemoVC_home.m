@@ -12,11 +12,13 @@
 
 #import "JPVideoPlayerDemoVC_home.h"
 #import "UIView+WebVideoCache.h"
-#import "JPVideoPlayerDemoCell.h"
+//#import "JPVideoPlayerDemoCell.h"
+#import "TransVideoPlayerCell.h"
 #import "UITableView+VideoPlay.h"
 #import "JPVideoPlayerDemoVC_push.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
-@interface JPVideoPlayerDemoVC_home ()<UITableViewDelegate, UITableViewDataSource>
+@interface JPVideoPlayerDemoVC_home () <UITableViewDelegate, UITableViewDataSource>
 
 /**
  * Arrary of video paths.
@@ -41,6 +43,8 @@
 #warning 注意: 播放视频的工具类是单例, 单例生命周期为整个应用生命周期, 故而须在 `-viewWillDisappear:`(推荐)或其他方法里 调用 `stopPlay` 方法来停止视频播放, 否则当前控制器销毁了, 视频仍然在后台播放, 虽然看不到图像, 但是能听到声音(如果有).
 
 static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
+static NSString *TransVideoPlayerCellReuseID = @"TransVideoPlayerCellReuseID";
+
 @implementation JPVideoPlayerDemoVC_home
 
 - (void)viewDidLoad {
@@ -57,7 +61,7 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
     
     // 用来防止选中 cell push 到下个控制器时, tableView 再次调用 scrollViewDidScroll 方法, 造成 playingCell 被置空.
     self.tableView.delegate = self;
-    
+
     if (!self.tableView.playingCell) {
         
         // Find the first cell need to play video in visiable cells.
@@ -88,6 +92,9 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
 
 
 #pragma mark - Data Srouce
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -96,9 +103,10 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    JPVideoPlayerDemoCell *cell = [tableView dequeueReusableCellWithIdentifier:JPVideoPlayerDemoReuseID forIndexPath:indexPath];
+    TransVideoPlayerCell *cell = [tableView dequeueReusableCellWithIdentifier:TransVideoPlayerCellReuseID forIndexPath:indexPath];
     cell.videoPath = self.pathStrings[indexPath.row];
     cell.indexPath = indexPath;
+    [cell setFeed];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (self.tableView.maxNumCannotPlayVideoCells > 0) {
@@ -126,12 +134,40 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
     JPVideoPlayerDemoVC_push *single = [JPVideoPlayerDemoVC_push new];
     single.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:single animated:YES];
-    JPVideoPlayerDemoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    TransVideoPlayerCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     single.videoPath = cell.videoPath;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return JPVideoPlayerDemoRowHei + 15 + 23 + 29;
+//    return JPVideoPlayerDemoRowHei + 15 + 23 + 29;
+    return [tableView fd_heightForCellWithIdentifier:TransVideoPlayerCellReuseID cacheByIndexPath:indexPath configuration:^(TransVideoPlayerCell *cell) {
+        [cell setFeed];
+    }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 55;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(24, 40, 200, 20)];
+    titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.text = @"翻译官日报";
+    [headerView addSubview:titleLabel];
+    return headerView;
+    
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, 300, 20)];
+    headerView.backgroundColor = [UIColor blackColor];
+    return headerView;
+    
 }
 
 /**
@@ -163,6 +199,7 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
     // Handle cyclic utilization
     // 处理循环利用
     [self.tableView handleQuickScroll];
+   
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -184,21 +221,22 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
     navBarImageView.frame = CGRectMake(0, -20, [UIScreen mainScreen].bounds.size.width, JPVideoPlayerDemoNavAndStatusTotalHei);
     [self.navigationController.navigationBar addSubview:navBarImageView];
     
-    
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([JPVideoPlayerDemoCell class]) bundle:nil] forCellReuseIdentifier:JPVideoPlayerDemoReuseID];
     
+//    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([JPVideoPlayerDemoCell class]) bundle:nil] forCellReuseIdentifier:JPVideoPlayerDemoReuseID];
+    [self.tableView registerClass:[TransVideoPlayerCell class] forCellReuseIdentifier:TransVideoPlayerCellReuseID];
     // location file in disk.
     // 本地视频播放.
     NSString *locVideoPath = [[NSBundle mainBundle]pathForResource:@"hello" ofType:@"mp4"];
     NSURL *url = [NSURL fileURLWithPath:locVideoPath];
     self.pathStrings = @[
                          // location video path.
-                         url.absoluteString,
+//                         url.absoluteString,
                          
                          // This url will redirect.
-                         @"http://v.polyv.net/uc/video/getMp4?vid=9c9f71f62d5f24a7f9c6273e469a71a0_9",
+//                         @"http://v.polyv.net/uc/video/getMp4?vid=9c9f71f62d5f24a7f9c6273e469a71a0_9",
                          
                          @"http://lavaweb-10015286.video.myqcloud.com/%E5%B0%BD%E6%83%85LAVA.mp4",
                          @"http://lavaweb-10015286.video.myqcloud.com/lava-guitar-creation-2.mp4",
@@ -208,7 +246,6 @@ static NSString *JPVideoPlayerDemoReuseID = @"JPVideoPlayerDemoReuseID";
                          // This path is a https.
                          // "https://bb-bang.com:9002/Test/Vedio/20170110/f49601b6bfe547e0a7d069d9319388f4.mp4",
                          // "http://123.103.15.1JPVideoPlayerDemoNavAndStatusTotalHei:8880/myVirtualImages/14266942.mp4",
-                         
                          // This video saved in amazon, maybe load sowly.
                          // "http://vshow.s3.amazonaws.com/file147801253818487d5f00e2ae6e0194ab085fe4a43066c.mp4",
                          @"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
